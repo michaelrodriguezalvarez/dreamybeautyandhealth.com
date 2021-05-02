@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="{{ asset('vendors/iconfonts/mdi/css/materialdesignicons.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('vendors/iconfonts/ionicons/dist/css/ionicons.css') }}">
+    <link rel="stylesheet" href="{{ asset('vendors/iconfonts/flag-icon-css/css/flag-icon.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('vendors/css/vendor.bundle.base.css') }}">
+    <link rel="stylesheet" href="{{ asset('vendors/css/vendor.bundle.addons.css') }}">
+    <!-- endinject -->
+    <!-- plugin css for this page -->
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="{{ asset('css/shared/style.css') }}">
+    <!-- endinject -->
+    <link rel="shortcut icon" href="{{ asset('images/favicon.ico') }}" />
+
+    {% block stylesheets %}
+        {#{{ encore_entry_link_tags('app') }}#}
+    {% endblock %}
+
+</head>
+<body>
+
+<div class="container-scroller">
+    <div class="container-fluid page-body-wrapper full-page-wrapper">
+        <div class="content-wrapper d-flex align-items-center auth auth-bg-1 theme-one">
+            <div class="row w-100">
+                <div class="col-lg-4 mx-auto">
+                    {% block body %}{% endblock %}
+                    <ul class="auth-footer">
+                        <li>
+                            <a href="#">Condiciones</a>
+                        </li>
+                        <li>
+                            <a href="#">Términos</a>
+                        </li>
+                        <li>
+                            <a href="#">Ayuda</a>
+                        </li>
+                    </ul>
+                    <p class="footer-text text-center">Copyright © 2021 Dreamy Beauty and Health. Todos los derechos reservados.</p>
+                    <p class="footer-text text-center text-center"> Plantilla basada en <a href="https://www.bootstrapdash.com/bootstrap-admin-template/" target="_blank"> Free Bootstrap template </a></p>
+                </div>
+            </div>
+        </div>
+        <!-- content-wrapper ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+</div>
+
+<!-- container-scroller -->
+<!-- plugins:js -->
+<script src="{{ asset('vendors/js/vendor.bundle.base.js') }}"></script>
+<script src="{{ asset('vendors/js/vendor.bundle.addons.js') }}"></script>
+<!-- endinject -->
+<!-- inject:js -->
+<script src="{{ asset('js/shared/off-canvas.js') }}"></script>
+<script src="{{ asset('js/shared/misc.js') }}"></script>
+<!-- endinject -->
+<script src="{{ asset('js/shared/jquery.cookie.js') }}" type="text/javascript"></script>
+
+{% block javascripts %}
+    {#{{ encore_entry_script_tags('app') }}#}
+{% endblock %}
+
+</body>
+</html>

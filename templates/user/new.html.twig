@@ -1,0 +1,87 @@
+{% set template = '' %}
+
+{% if is_granted('ROLE_ADMIN') %}
+    {% set template = 'base.html.twig' %}
+{% else %}
+    {% set template = 'base-security.html.twig' %}
+{% endif %}
+
+{% extends template %}
+
+{% block title %}Crear Usuario{% endblock %}
+
+{% block page_title %}Crear Usuario{% endblock %}
+
+{% block breadcrums %}
+    <li><a href="#">Inicio</a></li>
+    <li><a href="#">Crear Usuario</a></li>
+    <li><a href="#">
+            {% if role == 'admin'%}Administrador{% endif %}
+            {% if role == 'specialist'%}Especialista{% endif %}
+            {% if role == 'patient'%}Paciente{% endif %}
+        </a></li>
+{% endblock %}
+
+{% block body %}
+
+    {% if is_granted('ROLE_ADMIN') %}
+        <div class="row">
+            <div class="col-md-12 grid-margin">
+                <div class="card">
+                    <div class="card-body">
+                        <div>
+                            {% for message in app.flashes('notification') %}
+                                <div class="alert alert-primary alert-dismissible fade show">
+                                    {{ message }}
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div>
+                            {#  { include('user/_form.html.twig') }#}
+
+                            {{ form_start(form) }}
+                            {{ form_widget(form) }}
+                            <button class="btn btn-primary mt-2">{{ button_label|default('Crear')|trans }}</button>
+                            {{ form_end(form) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% else %}
+                {% if is_granted('ROLE_PATIENT') == false and is_granted('ROLE_SPECIALIST') == false %}
+                <div class="auto-form-wrapper mt-4">
+                    <div class="text-center text-dark mb-2">
+                        <span class="font-weight-semibold">Registrar Usuario</span>
+                    </div>
+                    <div>
+                        {% for message in app.flashes('notification') %}
+                            <div class="alert alert-primary alert-dismissible fade show">
+                                {{ message }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    {{ form_start(form) }}
+                    {{ form_widget(form) }}
+                    <div class="form-group">
+                        <button class="btn btn-primary submit-btn btn-block mt-4">{{ button_label|default('Registrarse')|trans }}</button>
+                    </div>
+                    <div class="text-block text-center my-3">
+                        <span class="text-small font-weight-semibold">¿Posee una cuenta de acceso?</span>
+                        <a href="{{ path('app_login') }}" class="text-black text-small">Acceda al sistema</a>
+                    </div>
+                    {{ form_end(form) }}
+                </div>
+                {% else %}
+                    <div>No tiene permisos</div>
+                {% endif %}
+    {% endif %}
+
+
+{% endblock %}

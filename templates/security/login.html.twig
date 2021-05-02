@@ -1,0 +1,43 @@
+{% extends 'base-security.html.twig' %}
+
+{% block title %}Entrar{% endblock %}
+
+{% block body %}
+
+    <div class="auto-form-wrapper">
+        <form method="post">
+            <div class="text-center text-dark mb-2">
+                <span class="font-weight-semibold">Entrada al sistema</span>
+            </div>
+            {% if error %}
+                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
+            <div>
+                <label class="label" for="inputEmail">Correo</label>
+                <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" required autofocus >
+
+            </div>
+            <div>
+                <label class="label" for="inputPassword">Clave</label>
+                    <input type="password" name="password" id="inputPassword" class="form-control" required>
+            </div>
+            <input type="hidden" name="_csrf_token"
+                   value="{{ csrf_token('authenticate') }}"
+            >
+            <div class="form-group mt-3">
+                <button class="btn btn-primary submit-btn btn-block">Entrar</button>
+            </div>
+            <div class="form-group d-flex justify-content-between">
+                <div class="form-check form-check-flat mt-0">
+                    <label class="form-check-label">
+                        <input type="checkbox" class="form-check-input" checked name="_remember_me"> Recordarme </label>
+                </div>
+                <a href="#" class="text-small forgot-password text-black">Olvidé mi clave</a>
+            </div>
+            <div class="text-block text-center my-3">
+                <span class="text-small font-weight-semibold">¿Aún no posee cuenta de acceso?</span>
+                <a href="{{ path('user_new', {role:'patient'}) }}" class="text-black text-small">Regístrese</a>
+            </div>
+        </form>
+    </div>
+{% endblock %}

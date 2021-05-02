@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Editar Usuario{% endblock %}
+
+{% block page_title %}Editar Usuario{% endblock %}
+
+{% block breadcrums %}
+    <li><a href="#">Inicio</a></li>
+    <li><a href="#">Editar Usuario</a></li>
+    <li><a href="#">
+            {% if role == 'admin'%}Administrador{% endif %}
+            {% if role == 'specialist'%}Especialista{% endif %}
+            {% if role == 'patient'%}Paciente{% endif %}
+        </a></li>
+{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="col-md-12 grid-margin">
+        <div class="card">
+            <div class="card-body">
+
+                <div>
+                    {% for message in app.flashes('notification') %}
+                        <div class="alert alert-primary alert-dismissible fade show">
+                            {{ message }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endfor %}
+                </div>
+
+    {# { include('user/_form.html.twig', {'button_label': 'Editar'}) } #}
+
+                {{ form_start(form) }}
+                {{ form_widget(form) }}
+
+                <div>
+                    <label>Foto actual</label>
+                    <br>
+                    {% if user.foto == null %}
+                        <span>Sin foto</span>
+                    {% else %}
+                        <img class="img-md rounded-circle" src="{{ asset('uploads/images/' ~ user.foto.imagen) }}" alt="{{ user.foto.nombre }}" />
+                    {% endif %}
+                </div>
+                <div class="row">
+                    <button class="btn btn-primary mt-2 ml-3">{{ button_label|default('Editar')|trans }}</button>
+                    {% if is_granted('ROLE_ADMIN')  %}
+                    <a class="btn btn-primary mt-2 ml-2" href="{{ path('user_index', {'role':role}) }}">Listar</a>
+                    {% endif %}
+                </div>
+
+                {{ form_end(form) }}
+
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

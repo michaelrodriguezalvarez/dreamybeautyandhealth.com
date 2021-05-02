@@ -1,0 +1,91 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mostrar Usuario{% endblock %}
+
+{% block page_title %}Mostrar Usuario{% endblock %}
+
+{% block breadcrums %}
+    <li><a href="#">Inicio</a></li>
+    <li><a href="#">Mostrar Usuario</a></li>
+    <li><a href="#">
+            {% if role == 'admin'%}Administradores{% endif %}
+            {% if role == 'specialist'%}Especialistas{% endif %}
+            {% if role == 'patient'%}Pacientes{% endif %}
+        </a></li>
+{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="col-md-12 grid-margin">
+        <div class="card">
+            <div class="card-body">
+
+                <div>
+                    {% for message in app.flashes('notification') %}
+                        <div class="alert alert-info alert-dismissible fade show">
+                            {{ message }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <table id="tabla" class="table table-striped table-bordered" style="width:100%">
+                    <tbody>
+                        <tr>
+                            <th>Foto</th>
+                            {% if user.foto == null %}
+                                <td><span>Sin foto</span></td>
+                            {% else %}
+                                <td><img src="{{ asset('uploads/images/' ~ user.foto.imagen) }}" alt="{{ user.foto.nombre }}" /></td>
+                            {% endif %}
+                        </tr>
+                        <tr>
+                            <th>Nombre y Apellidos</th>
+                            <td>{{ user.nombre }} {{ user.apellidos }}</td>
+                        </tr>
+                        {% if role == 'specialist' %}
+                            <tr>
+                                <th>Especialidad</th>
+                                <td>{{ user.especialidad }}</td>
+                            </tr>
+                            <tr>
+                                <th>Nacionalidad</th>
+                                <td>{{ user.nacionalidad }}</td>
+                            </tr>
+                        {% endif %}
+                        {% if role == 'patient' %}
+                            <tr>
+                                <th>Teléfono</th>
+                                <td>{{ user.telefono }}</td>
+                            </tr>
+                            <tr>
+                                <th>Dirección</th>
+                                <td>{{ user.direccion }}</td>
+                            </tr>
+                        {% endif %}
+                        <tr>
+                            <th>Correo</th>
+                            <td>{{ user.usuario.email }}</td>
+                        </tr>
+                        <tr>
+                            <th>Rol de usuario</th>
+                            <td>{{ role == 'specialist' ? 'Especialista' : role == 'patient' ? 'Paciente' : 'Administrador' }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                 <div class="row">
+                     {% if is_granted('ROLE_ADMIN')  %}
+                     <a class="btn btn-primary m-1 ml-3" href="{{ path('user_index', {'role':role}) }}">Listar</a>
+                     {% endif %}
+                     <a class="btn btn-primary m-1 {% if is_granted('ROLE_ADMIN') == false %} ml-3{% endif %}" href="{{ path('user_edit', {'id': user.usuario.id, 'role':role}) }}">Editar</a>
+                     {% if is_granted('ROLE_ADMIN')  %}
+                     {{ include('user/_delete_form.html.twig') }}
+                     {% endif %}
+                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
