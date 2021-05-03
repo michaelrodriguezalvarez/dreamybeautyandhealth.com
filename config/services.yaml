@@ -67,3 +67,11 @@ services:
     App\EventListener\BeneficioImageSubscriber:
         arguments:
             $targetDirectory: '%images_directory%'
+
+    App\Form\EspecialidadType:
+        arguments:
+            $targetDirectory: '%images_directory%'
+
+    App\EventListener\EspecialidadImageSubscriber:
+        arguments:
+            $targetDirectory: '%images_directory%'
