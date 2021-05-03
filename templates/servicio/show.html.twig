@@ -1,30 +1,61 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Servicio{% endblock %}
+{% block title %}Mostrar Servicio{% endblock %}
+
+{% block page_title %}Mostrar Servicio{% endblock %}
+
+{% block breadcrums %}
+    <li><a href="#">Inicio</a></li>
+    <li><a href="#">Nomencladores</a></li>
+    <li><a href="#">Servicios</a></li>
+    <li><a href="#">Mostrar Servicio</a></li>
+{% endblock %}
 
 {% block body %}
-    <h1>Servicio</h1>
+<div class="row">
+    <div class="col-md-12 grid-margin">
+        <div class="card">
+            <div class="card-body">
 
-    <table class="table">
+                <div>
+                    {% for message in app.flashes('notification') %}
+                        <div class="alert alert-info alert-dismissible fade show">
+                            {{ message }}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <table id="tabla" class="table table-striped table-bordered" style="width:100%">
         <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ servicio.id }}</td>
+        <tr>
+            <th>Imagen</th>
+                {% if servicio.imagen == null %}
+                    <td><span>Sin imagen</span></td>
+                {% else %}
+                    <td><img src="{{ asset('uploads/images/' ~ servicio.imagen.imagen) }}" alt="{{ servicio.imagen.nombre }}" /></td>
+                {% endif %}
             </tr>
             <tr>
                 <th>Nombre</th>
                 <td>{{ servicio.nombre }}</td>
             </tr>
             <tr>
-                <th>Descripcion</th>
+                <th>Descripción</th>
                 <td>{{ servicio.descripcion }}</td>
             </tr>
         </tbody>
     </table>
+                <div class="row">
+                    <a class="btn btn-primary m-1 ml-3" href="{{ path('servicio_index') }}">Listar</a>
+                    <a class="btn btn-primary m-1" href="{{ path('servicio_edit', {'id': servicio.id}) }}">Editar</a>
+                    {{ include('servicio/_delete_form.html.twig') }}
+                </div>
 
-    <a href="{{ path('servicio_index') }}">back to list</a>
-
-    <a href="{{ path('servicio_edit', {'id': servicio.id}) }}">edit</a>
-
-    {{ include('servicio/_delete_form.html.twig') }}
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
