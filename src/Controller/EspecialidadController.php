@@ -100,8 +100,14 @@ class EspecialidadController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete'.$especialidad->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
+            $foto = $especialidad->getImagen();
             $entityManager->remove($especialidad);
+            if ($foto){
+                unlink($this->getParameter('images_directory').'/'.$foto->getImagen());
+                $entityManager->remove($foto);
+            }
             $entityManager->flush();
+            $this->addFlash('notification', 'Especialidad eliminada correctamente.');
         }
 
         return $this->redirectToRoute('especialidad_index');
