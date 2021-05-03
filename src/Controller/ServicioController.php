@@ -98,8 +98,14 @@ class ServicioController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete'.$servicio->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
+            $foto = $servicio->getImagen();
             $entityManager->remove($servicio);
+            if ($foto){
+                unlink($this->getParameter('images_directory').'/'.$foto->getImagen());
+                $entityManager->remove($foto);
+            }
             $entityManager->flush();
+            $this->addFlash('notification', 'Servicio eliminado correctamente.');
         }
 
         return $this->redirectToRoute('servicio_index');
