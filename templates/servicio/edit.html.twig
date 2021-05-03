@@ -1,13 +1,54 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit Servicio{% endblock %}
+{% block title %}Editar Servicio{% endblock %}
+
+{% block page_title %}Editar Servicio{% endblock %}
+
+{% block breadcrums %}
+    <li><a href="#">Inicio</a></li>
+    <li><a href="#">Nomencladores</a></li>
+    <li><a href="#">Servicios</a></li>
+    <li><a href="#">Editar Servicio</a></li>
+{% endblock %}
 
 {% block body %}
-    <h1>Edit Servicio</h1>
+    <div class="row">
+        <div class="col-md-12 grid-margin">
+            <div class="card">
+                <div class="card-body">
 
-    {{ include('servicio/_form.html.twig', {'button_label': 'Update'}) }}
+                    <div>
+                        {% for message in app.flashes('notification') %}
+                            <div class="alert alert-primary alert-dismissible fade show">
+                                {{ message }}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        {% endfor %}
+                    </div>
 
-    <a href="{{ path('servicio_index') }}">back to list</a>
+                    {{ form_start(form) }}
+                    {{ form_widget(form) }}
 
-    {{ include('servicio/_delete_form.html.twig') }}
+                    <div>
+                        <label>Imagen actual</label>
+                        <br>
+                        {% if servicio.imagen == null %}
+                            <span>Sin imagen</span>
+                        {% else %}
+                            <img class="img-md rounded-circle" src="{{ asset('uploads/images/' ~ servicio.imagen.imagen) }}" alt="{{ servicio.imagen.nombre }}" />
+                        {% endif %}
+                    </div>
+                    <div class="row">
+                        <button class="btn btn-primary mt-2 ml-3">{{ button_label|default('Editar')|trans }}</button>
+                        <a class="btn btn-primary mt-2 ml-2" href="{{ path('servicio_index') }}">Listar</a>
+                    </div>
+
+                    {{ form_end(form) }}
+
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

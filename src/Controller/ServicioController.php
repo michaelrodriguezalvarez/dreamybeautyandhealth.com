@@ -81,6 +81,7 @@ class ServicioController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
+            $this->addFlash('notification', 'Servicio editado correctamente.');
             return $this->redirectToRoute('servicio_index');
         }
 
