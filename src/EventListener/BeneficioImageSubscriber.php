@@ -69,17 +69,18 @@ class BeneficioImageSubscriber implements EventSubscriberInterface
                 }
             }else{
                 $imagen = null;
-                $fichero = $entidad['imagen'];
+                $fichero = $entidad['fichero'];
 
                 if ($fichero){
                     $description = 'Imagen del beneficio '. $entidad['nombre'];
                     $imagen = $this->imageUploader->upload($fichero, $description);
-
                 }
 
                 $foto = $entidad_original->getImagen();
-                unlink($this->targetDirectory.'/'.$foto->getImagen());
-                $this->entityManager->remove($foto);
+                if ($foto){
+                    unlink($this->targetDirectory.'/'.$foto->getImagen());
+                    $this->entityManager->remove($foto);
+                }
 
                 $entidad['fichero'] = $imagen;
                 $entidad['imagen'] = $imagen;

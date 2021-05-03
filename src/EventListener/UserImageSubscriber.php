@@ -94,8 +94,10 @@ class UserImageSubscriber implements EventSubscriberInterface
                 }
 
                 $foto = $administrador_original->getFoto();
-                unlink($this->targetDirectory.'/'.$foto->getImagen());
-                $this->entityManager->remove($foto);
+                if($foto){
+                    unlink($this->targetDirectory.'/'.$foto->getImagen());
+                    $this->entityManager->remove($foto);
+                }
 
                 $administrador['fichero'] = $imagen;
                 $administrador['foto'] = $imagen;

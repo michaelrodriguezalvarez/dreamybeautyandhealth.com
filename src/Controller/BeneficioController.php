@@ -52,6 +52,7 @@ class BeneficioController extends AbstractController
             $entityManager->persist($beneficio);
             $entityManager->flush();
 
+            $this->addFlash('notification', 'Beneficio creado correctamente.');
             return $this->redirectToRoute('beneficio_index');
         }
 
@@ -82,6 +83,7 @@ class BeneficioController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
+            $this->addFlash('notification', 'Beneficio editado correctamente.');
             return $this->redirectToRoute('beneficio_index');
         }
 
