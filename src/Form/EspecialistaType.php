@@ -52,9 +52,6 @@ class EspecialistaType extends AbstractType
             );
 
         $builder
-            ->add('especialidad', TextType::class, array (
-                'attr' => array('class'=>'form-control'),
-            ))
             ->add('nacionalidad', TextType::class, array (
                 'attr' => array('class'=>'form-control'),
             ))

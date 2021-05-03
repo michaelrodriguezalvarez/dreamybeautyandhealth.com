@@ -38,13 +38,6 @@ class Especialista
     /**
      * @var string|null
      *
-     * @ORM\Column(name="especialidad", type="string", length=255, nullable=true)
-     */
-    private $especialidad;
-
-    /**
-     * @var string|null
-     *
      * @ORM\Column(name="nacionalidad", type="string", length=255, nullable=true)
      */
     private $nacionalidad;
@@ -94,18 +87,6 @@ class Especialista
     public function setApellidos(string $apellidos): self
     {
         $this->apellidos = $apellidos;
-
-        return $this;
-    }
-
-    public function getEspecialidad(): ?string
-    {
-        return $this->especialidad;
-    }
-
-    public function setEspecialidad(?string $especialidad): self
-    {
-        $this->especialidad = $especialidad;
 
         return $this;
     }
