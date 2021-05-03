@@ -2,7 +2,6 @@
 
 namespace App\EventListener;
 
-use Monolog\Logger;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use App\Service\ImageUploader;

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Beneficio;
 use App\Form\BeneficioType;
+use App\Service\ImageUploader;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -31,7 +32,7 @@ class BeneficioController extends AbstractController
     /**
      * @Route("/new", name="beneficio_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, ImageUploader $imageUploader): Response
     {
         $beneficio = new Beneficio();
         $form = $this->createForm(BeneficioType::class, $beneficio);
@@ -39,6 +40,15 @@ class BeneficioController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+
+            $imagen = null;
+            $fichero = $form->get('fichero')->getData();
+            if ($fichero){
+                $description = 'Imagen del beneficio '. $beneficio->getNombre();
+                $imagen = $imageUploader->upload($fichero, $description);
+            }
+            $beneficio->setImagen($imagen);
+
             $entityManager->persist($beneficio);
             $entityManager->flush();
 

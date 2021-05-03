@@ -59,3 +59,11 @@ services:
         tags: ['twig.extension']
         #arguments:
         #    $role: 'role'
+
+    App\Form\BeneficioType:
+        arguments:
+            $targetDirectory: '%images_directory%'
+
+    App\EventListener\BeneficioImageSubscriber:
+        arguments:
+            $targetDirectory: '%images_directory%'
