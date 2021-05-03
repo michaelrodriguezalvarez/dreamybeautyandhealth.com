@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Especialidad;
 use App\Form\EspecialidadType;
+use App\Service\ImageUploader;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -31,7 +32,7 @@ class EspecialidadController extends AbstractController
     /**
      * @Route("/new", name="especialidad_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, ImageUploader $imageUploader): Response
     {
         $especialidad = new Especialidad();
         $form = $this->createForm(EspecialidadType::class, $especialidad);
@@ -39,9 +40,19 @@ class EspecialidadController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+
+            $imagen = null;
+            $fichero = $form->get('fichero')->getData();
+            if ($fichero){
+                $description = 'Imagen de la especialidad '. $especialidad->getNombre();
+                $imagen = $imageUploader->upload($fichero, $description);
+            }
+            $especialidad->setImagen($imagen);
+
             $entityManager->persist($especialidad);
             $entityManager->flush();
 
+            $this->addFlash('notification', 'Especialidad creada correctamente.');
             return $this->redirectToRoute('especialidad_index');
         }
 
