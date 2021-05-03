@@ -83,6 +83,7 @@ class EspecialidadController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
+            $this->addFlash('notification', 'Especialidad editada correctamente.');
             return $this->redirectToRoute('especialidad_index');
         }
 
