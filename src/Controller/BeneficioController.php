@@ -100,8 +100,14 @@ class BeneficioController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete'.$beneficio->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
+            $foto = $beneficio->getImagen();
             $entityManager->remove($beneficio);
+            if ($foto){
+                unlink($this->getParameter('images_directory').'/'.$foto->getImagen());
+                $entityManager->remove($foto);
+            }
             $entityManager->flush();
+            $this->addFlash('notification', 'Beneficio eliminado correctamente.');
         }
 
         return $this->redirectToRoute('beneficio_index');
