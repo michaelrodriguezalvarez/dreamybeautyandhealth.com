@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Beneficio{% endblock %}
+
+{% block body %}
+    <h1>Edit Beneficio</h1>
+
+    {{ include('beneficio/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('beneficio_index') }}">back to list</a>
+
+    {{ include('beneficio/_delete_form.html.twig') }}
+{% endblock %}

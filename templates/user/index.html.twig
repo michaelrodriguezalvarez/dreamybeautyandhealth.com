@@ -21,12 +21,15 @@
 
 {% block breadcrums %}
     <li><a href="#">Inicio</a></li>
-    <li><a href="#">Listar Usuarios</a></li>
+    <li><a href="#">Usuarios</a></li>
     <li><a href="#">
             {% if role == 'admin'%}Administradores{% endif %}
             {% if role == 'specialist'%}Especialistas{% endif %}
             {% if role == 'patient'%}Pacientes{% endif %}
-        </a></li>
+        </a>
+    </li>
+    <li><a href="#">Listar Usuarios</a></li>
+
 {% endblock %}
 
 {% block body %}
