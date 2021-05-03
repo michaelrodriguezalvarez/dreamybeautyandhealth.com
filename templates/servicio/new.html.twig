@@ -1,11 +1,43 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Servicio{% endblock %}
+{% block title %}Crear Servicio{% endblock %}
+
+{% block page_title %}Crear Servicio{% endblock %}
+
+{% block breadcrums %}
+    <li><a href="#">Inicio</a></li>
+    <li><a href="#">Nomencladores</a></li>
+    <li><a href="#">Servicios</a></li>
+    <li><a href="#">Crear Servicio</a></li>
+{% endblock %}
 
 {% block body %}
-    <h1>Create new Servicio</h1>
 
-    {{ include('servicio/_form.html.twig') }}
+    <div class="row">
+        <div class="col-md-12 grid-margin">
+            <div class="card">
+                <div class="card-body">
+                    <div>
+                        {% for message in app.flashes('notification') %}
+                            <div class="alert alert-primary alert-dismissible fade show">
+                                {{ message }}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        {% endfor %}
+                    </div>
 
-    <a href="{{ path('servicio_index') }}">back to list</a>
+                    <div>
+                        {{ form_start(form) }}
+                        {{ form_widget(form) }}
+                        <button class="btn btn-primary mt-2">{{ button_label|default('Crear')|trans }}</button>
+                        {{ form_end(form) }}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
+

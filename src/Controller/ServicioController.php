@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Servicio;
 use App\Form\ServicioType;
+use App\Service\ImageUploader;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -31,7 +32,7 @@ class ServicioController extends AbstractController
     /**
      * @Route("/new", name="servicio_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request,  ImageUploader $imageUploader): Response
     {
         $servicio = new Servicio();
         $form = $this->createForm(ServicioType::class, $servicio);
@@ -39,9 +40,17 @@ class ServicioController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+            $imagen = null;
+            $fichero = $form->get('fichero')->getData();
+            if ($fichero) {
+                $description = 'Imagen del servicio ' . $servicio->getNombre();
+                $imagen = $imageUploader->upload($fichero, $description);
+            }
+            $servicio->setImagen($imagen);
             $entityManager->persist($servicio);
             $entityManager->flush();
 
+            $this->addFlash('notification', 'Servicio creado correctamente.');
             return $this->redirectToRoute('servicio_index');
         }
 
