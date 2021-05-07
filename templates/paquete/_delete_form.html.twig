@@ -1,0 +1,5 @@
+<form method="post" action="{{ path('paquete_delete', {'id': paquete.id}) }}" onsubmit="return confirm('¿Desea eliminar este paquete?');">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ paquete.id) }}">
+    <button id="btn_delete" class="btn btn-danger m-1">Eliminar</button>
+</form>

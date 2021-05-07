@@ -83,3 +83,11 @@ services:
     App\EventListener\ServicioImageSubscriber:
         arguments:
             $targetDirectory: '%images_directory%'
+
+    App\Form\PaqueteType:
+        arguments:
+            $targetDirectory: '%images_directory%'
+
+    App\EventListener\PaqueteImageSubscriber:
+        arguments:
+            $targetDirectory: '%images_directory%'

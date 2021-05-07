@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Crear Paquete{% endblock %}
+
+{% block page_title %}Crear Paquete{% endblock %}
+
+{% block breadcrums %}
+    <li><a href="#">Inicio</a></li>
+    <li><a href="#">Paquetes</a></li>
+    <li><a href="#">Crear Paquete</a></li>
+{% endblock %}
+
+
+{% block body %}
+
+    <div class="row">
+        <div class="col-md-12 grid-margin">
+            <div class="card">
+                <div class="card-body">
+                    <div>
+                        {% for message in app.flashes('notification') %}
+                            <div class="alert alert-primary alert-dismissible fade show">
+                                {{ message }}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    <div>
+                        {{ form_start(form) }}
+                        {{ form_widget(form) }}
+                        <button class="btn btn-primary mt-2">{{ button_label|default('Crear')|trans }}</button>
+                        {{ form_end(form) }}
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
