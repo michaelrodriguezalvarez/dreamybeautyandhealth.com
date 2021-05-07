@@ -81,6 +81,7 @@ class PaqueteController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
+            $this->addFlash('notification', 'Paquete editado correctamente.');
             return $this->redirectToRoute('paquete_index');
         }
 
