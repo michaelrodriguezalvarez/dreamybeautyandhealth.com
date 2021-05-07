@@ -47,6 +47,7 @@
             <tr>
                 <th>Imagen</th>
                 <th>Nombre</th>
+                <th>Especialidad</th>
                 <th>Descripción</th>
                 <th>Acciones</th>
             </tr>
@@ -60,6 +61,7 @@
                     <td><img src="{{ asset('uploads/images/' ~ servicio.imagen.imagen) }}" alt="{{ servicio.imagen.nombre }}" /></td>
                 {% endif %}
                 <td>{{ servicio.nombre }}</td>
+                <td>{{ servicio.especialidad.nombre }}</td>
                 <td>{{ servicio.descripcion }}</td>
                 <td>
                     <div class="row ml-2">
@@ -79,6 +81,7 @@
                     <tr>
                         <th>Imagen</th>
                         <th>Nombre</th>
+                        <th>Especialidad</th>
                         <th>Descripción</th>
                         <th>Acciones</th>
                     </tr>

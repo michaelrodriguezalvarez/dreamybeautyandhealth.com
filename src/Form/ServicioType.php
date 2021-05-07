@@ -2,10 +2,12 @@
 
 namespace App\Form;
 
+use App\Entity\Especialidad;
 use App\Entity\Servicio;
 use App\EventListener\ServicioImageSubscriber;
 use App\Service\ImageUploader;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -35,6 +37,12 @@ class ServicioType extends AbstractType
             ->add('descripcion', TextareaType::class, array(
                 'label'=>'Descripción',
                 'attr' => array('class'=>'form-control')
+            ))
+            ->add('especialidad', EntityType::class, array(
+                'class' => Especialidad::class,
+                'choice_label' => 'nombre',
+                'attr' => array('class'=>'form-control'),
+                'required' => true
             ))
         ;
         $builder
