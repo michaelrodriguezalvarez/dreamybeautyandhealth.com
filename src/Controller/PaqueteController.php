@@ -98,8 +98,14 @@ class PaqueteController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete'.$paquete->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
+            $foto = $paquete->getImagen();
             $entityManager->remove($paquete);
+            if ($foto){
+                unlink($this->getParameter('images_directory').'/'.$foto->getImagen());
+                $entityManager->remove($foto);
+            }
             $entityManager->flush();
+            $this->addFlash('notification', 'Paquete eliminado correctamente.');
         }
 
         return $this->redirectToRoute('paquete_index');
