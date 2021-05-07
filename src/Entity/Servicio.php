@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Servicio
  *
- * @ORM\Table(name="servicio", indexes={@ORM\Index(name="fk_servicio_imagen", columns={"imagen"})})
+ * @ORM\Table(name="servicio", indexes={@ORM\Index(name="fk_servicio_imagen", columns={"imagen"}), @ORM\Index(name="fk_servicio_especialidad", columns={"especialidad"})})
  * @ORM\Entity
  */
 class Servicio
@@ -34,6 +34,16 @@ class Servicio
      * @ORM\Column(name="descripcion", type="string", length=255, nullable=true)
      */
     private $descripcion;
+
+    /**
+     * @var \Especialidad
+     *
+     * @ORM\ManyToOne(targetEntity="Especialidad")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="especialidad", referencedColumnName="id")
+     * })
+     */
+    private $especialidad;
 
     /**
      * @var \Imagen
@@ -70,6 +80,18 @@ class Servicio
     public function setDescripcion(?string $descripcion): self
     {
         $this->descripcion = $descripcion;
+
+        return $this;
+    }
+
+    public function getEspecialidad(): ?Especialidad
+    {
+        return $this->especialidad;
+    }
+
+    public function setEspecialidad(?Especialidad $especialidad): self
+    {
+        $this->especialidad = $especialidad;
 
         return $this;
     }

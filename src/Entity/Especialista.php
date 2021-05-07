@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Especialista
  *
- * @ORM\Table(name="especialista", indexes={@ORM\Index(name="fk_especialista_usuario", columns={"usuario"}), @ORM\Index(name="fk_especialista_foto", columns={"foto"})})
+ * @ORM\Table(name="especialista", indexes={@ORM\Index(name="fk_especialista_especialidad", columns={"especialidad"}), @ORM\Index(name="fk_especialista_usuario", columns={"usuario"}), @ORM\Index(name="fk_especialista_foto", columns={"foto"})})
  * @ORM\Entity
  */
 class Especialista
@@ -41,6 +41,16 @@ class Especialista
      * @ORM\Column(name="nacionalidad", type="string", length=255, nullable=true)
      */
     private $nacionalidad;
+
+    /**
+     * @var \Especialidad
+     *
+     * @ORM\ManyToOne(targetEntity="Especialidad")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="especialidad", referencedColumnName="id")
+     * })
+     */
+    private $especialidad;
 
     /**
      * @var \Imagen
@@ -99,6 +109,18 @@ class Especialista
     public function setNacionalidad(?string $nacionalidad): self
     {
         $this->nacionalidad = $nacionalidad;
+
+        return $this;
+    }
+
+    public function getEspecialidad(): ?Especialidad
+    {
+        return $this->especialidad;
+    }
+
+    public function setEspecialidad(?Especialidad $especialidad): self
+    {
+        $this->especialidad = $especialidad;
 
         return $this;
     }

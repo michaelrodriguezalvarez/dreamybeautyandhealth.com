@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Beneficio
  *
- * @ORM\Table(name="beneficio", indexes={@ORM\Index(name="fk_beneficio_imagen", columns={"imagen"})})
+ * @ORM\Table(name="beneficio", indexes={@ORM\Index(name="fk_beneficio_imagen", columns={"imagen"}), @ORM\Index(name="fk_beneficio_servicio", columns={"servicio"})})
  * @ORM\Entity
  */
 class Beneficio
@@ -44,6 +44,16 @@ class Beneficio
      * })
      */
     private $imagen;
+
+    /**
+     * @var \Servicio
+     *
+     * @ORM\ManyToOne(targetEntity="Servicio")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="servicio", referencedColumnName="id")
+     * })
+     */
+    private $servicio;
 
     public function getId(): ?int
     {
@@ -82,6 +92,18 @@ class Beneficio
     public function setImagen(?Imagen $imagen): self
     {
         $this->imagen = $imagen;
+
+        return $this;
+    }
+
+    public function getServicio(): ?Servicio
+    {
+        return $this->servicio;
+    }
+
+    public function setServicio(?Servicio $servicio): self
+    {
+        $this->servicio = $servicio;
 
         return $this;
     }

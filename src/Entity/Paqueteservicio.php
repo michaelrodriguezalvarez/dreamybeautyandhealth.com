@@ -5,12 +5,12 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Servicioespecialidad
+ * Paqueteservicio
  *
- * @ORM\Table(name="servicioespecialidad", indexes={@ORM\Index(name="fk_servicioespecialidad_servicio", columns={"servicio"}), @ORM\Index(name="fk_servicioespecialidad_especialidad", columns={"especialidad"})})
+ * @ORM\Table(name="paqueteservicio", indexes={@ORM\Index(name="fk_paqueteservicio_paquete", columns={"paquete"}), @ORM\Index(name="fk_paqueteservicio_servicio", columns={"servicio"})})
  * @ORM\Entity
  */
-class Servicioespecialidad
+class Paqueteservicio
 {
     /**
      * @var int
@@ -22,14 +22,14 @@ class Servicioespecialidad
     private $id;
 
     /**
-     * @var \Especialidad
+     * @var \Paquete
      *
-     * @ORM\ManyToOne(targetEntity="Especialidad")
+     * @ORM\ManyToOne(targetEntity="Paquete")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="especialidad", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="paquete", referencedColumnName="id")
      * })
      */
-    private $especialidad;
+    private $paquete;
 
     /**
      * @var \Servicio
@@ -46,14 +46,14 @@ class Servicioespecialidad
         return $this->id;
     }
 
-    public function getEspecialidad(): ?Especialidad
+    public function getPaquete(): ?Paquete
     {
-        return $this->especialidad;
+        return $this->paquete;
     }
 
-    public function setEspecialidad(?Especialidad $especialidad): self
+    public function setPaquete(?Paquete $paquete): self
     {
-        $this->especialidad = $especialidad;
+        $this->paquete = $paquete;
 
         return $this;
     }

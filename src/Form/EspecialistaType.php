@@ -2,11 +2,13 @@
 
 namespace App\Form;
 
+use App\Entity\Especialidad;
 use App\Entity\Especialista;
 use App\EventListener\UserImageSubscriber;
 use App\EventListener\UserPasswordSubscriber;
 use App\Service\ImageUploader;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -52,6 +54,12 @@ class EspecialistaType extends AbstractType
             );
 
         $builder
+            ->add('especialidad', EntityType::class, array(
+                'class' => Especialidad::class,
+                'choice_label' => 'nombre',
+                'attr' => array('class'=>'form-control'),
+                'required' => true
+            ))
             ->add('nacionalidad', TextType::class, array (
                 'attr' => array('class'=>'form-control'),
             ))
