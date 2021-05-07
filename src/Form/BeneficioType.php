@@ -3,9 +3,11 @@
 namespace App\Form;
 
 use App\Entity\Beneficio;
+use App\Entity\Servicio;
 use App\EventListener\BeneficioImageSubscriber;
 use App\Service\ImageUploader;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -32,6 +34,12 @@ class BeneficioType extends AbstractType
             ->add('nombre', TextType::class, array(
                 'label'=>'Nombre',
                 'attr' => array('class'=>'form-control')
+            ))
+            ->add('servicio', EntityType::class, array(
+                'class' => Servicio::class,
+                'choice_label' => 'nombre',
+                'attr' => array('class'=>'form-control'),
+                'required' => true
             ))
             ->add('descripcion', TextareaType::class, array(
                 'label'=>'Descripción',
