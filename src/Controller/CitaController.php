@@ -76,9 +76,9 @@ class CitaController extends AbstractController
     /**
      * @Route("/{id}/edit", name="cita_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Cita $citum): Response
+    public function edit(Request $request, Cita $cita): Response
     {
-        $form = $this->createForm(CitaType::class, $citum);
+        $form = $this->createForm(CitaType::class, $cita, array('estados' => $this->estados));
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -88,7 +88,7 @@ class CitaController extends AbstractController
         }
 
         return $this->render('cita/edit.html.twig', [
-            'citum' => $citum,
+            'cita' => $cita,
             'form' => $form->createView(),
         ]);
     }
