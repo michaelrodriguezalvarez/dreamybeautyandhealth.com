@@ -69,7 +69,7 @@ class CitaController extends AbstractController
     public function show(Cita $citum): Response
     {
         return $this->render('cita/show.html.twig', [
-            'citum' => $citum,
+            'cita' => $citum,
         ]);
     }
 
