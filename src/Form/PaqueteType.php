@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Paquete;
 use App\EventListener\PaqueteImageSubscriber;
+use App\EventListener\PaqueteServicioSubscriber;
 use App\Service\ImageUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\AbstractType;
@@ -38,7 +39,8 @@ class PaqueteType extends AbstractType
             ->add('imagen', HiddenType::class, array(
                 'data' => null
             ))
-            ->addEventSubscriber(new PaqueteImageSubscriber($this->imageUploader, $this->entityManager, $this->targetDirectory, 'patient'));
+            ->addEventSubscriber(new PaqueteImageSubscriber($this->imageUploader, $this->entityManager, $this->targetDirectory, 'patient'))
+            ->addEventSubscriber(new PaqueteServicioSubscriber($this->entityManager));
         ;
     }
 

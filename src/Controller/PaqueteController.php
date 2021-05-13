@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Paquete;
+use App\Entity\Paqueteservicio;
 use App\Form\PaqueteType;
 use App\Service\ImageUploader;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -40,6 +41,7 @@ class PaqueteController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+
             $imagen = null;
             $fichero = $form->get('fichero')->getData();
             if ($fichero) {
@@ -48,6 +50,15 @@ class PaqueteController extends AbstractController
             }
             $paquete->setImagen($imagen);
             $entityManager->persist($paquete);
+
+            $servicios = $form->get('servicios')->getData();
+            foreach ($servicios as $servicio){
+                $paqueteServicio = new Paqueteservicio();
+                $paqueteServicio->setPaquete($paquete);
+                $paqueteServicio->setServicio($servicio);
+                $entityManager->persist($paqueteServicio);
+            }
+
             $entityManager->flush();
 
             $this->addFlash('notification', 'Paquete creado correctamente.');
@@ -65,8 +76,12 @@ class PaqueteController extends AbstractController
      */
     public function show(Paquete $paquete): Response
     {
+        $servicios = $this->getDoctrine()
+            ->getRepository(Paqueteservicio::class)
+            ->obtenerServiciosPaquete($paquete);
         return $this->render('paquete/show.html.twig', [
             'paquete' => $paquete,
+            'servicios' => $servicios
         ]);
     }
 
@@ -79,6 +94,41 @@ class PaqueteController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $servicios = $form->get('servicios')->getData();
+
+            $paquetesServiciosGuardados = $this->getDoctrine()
+                ->getRepository(Paqueteservicio::class)->findBy(array('paquete'=>$paquete));
+
+            $entityManager = $this->getDoctrine()->getManager();
+
+            foreach ($paquetesServiciosGuardados as $paqueteServicioGuardado){
+                $contador = 1;
+                foreach ($servicios as $servicio) {
+                    if($paqueteServicioGuardado->getServicio()->getId() == $servicio->getId()){
+                        break;
+                    }else if($paqueteServicioGuardado->getServicio()->getId() != $servicio->getId() && $contador == count($servicios)){
+                        $entityManager->remove($paqueteServicioGuardado);
+                    }
+                    $contador = $contador + 1;
+                }
+            }
+
+            foreach ($servicios as $servicio){
+                $contador = 1;
+                foreach ($paquetesServiciosGuardados as $paqueteServicioGuardado){
+                    if($servicio->getId() == $paqueteServicioGuardado->getServicio()->getId()){
+                        break;
+                    }else if($servicio->getId() != $paqueteServicioGuardado->getServicio()->getId() && $contador == count($paquetesServiciosGuardados)){
+                        $paqueteServicioNuevo = new Paqueteservicio();
+                        $paqueteServicioNuevo->setPaquete($paquete);
+                        $paqueteServicioNuevo->setServicio($servicio);
+                        $entityManager->persist($paqueteServicioNuevo);
+                    }
+                    $contador = $contador + 1;
+                }
+            }
+
             $this->getDoctrine()->getManager()->flush();
 
             $this->addFlash('notification', 'Paquete editado correctamente.');

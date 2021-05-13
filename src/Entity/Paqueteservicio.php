@@ -2,13 +2,14 @@
 
 namespace App\Entity;
 
+use App\Repository\PaqueteservicioRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Paqueteservicio
  *
  * @ORM\Table(name="paqueteservicio", indexes={@ORM\Index(name="fk_paqueteservicio_paquete", columns={"paquete"}), @ORM\Index(name="fk_paqueteservicio_servicio", columns={"servicio"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass=PaqueteservicioRepository::class)
  */
 class Paqueteservicio
 {
