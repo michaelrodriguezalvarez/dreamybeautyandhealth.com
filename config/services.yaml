@@ -91,3 +91,7 @@ services:
     App\EventListener\PaqueteImageSubscriber:
         arguments:
             $targetDirectory: '%images_directory%'
+
+    App\EventListener\CitaEstadoSubscriber:
+        arguments:
+            $estados: 'Reservada'

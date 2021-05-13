@@ -45,20 +45,20 @@ class CitaController extends AbstractController
      */
     public function new(Request $request): Response
     {
-        $citum = new Cita();
-        $form = $this->createForm(CitaType::class, $citum, array('estados' => $this->estados));
+        $cita = new Cita();
+        $form = $this->createForm(CitaType::class, $cita, array('estados' => $this->estados));
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($citum);
+            $entityManager->persist($cita);
             $entityManager->flush();
 
             return $this->redirectToRoute('cita_index');
         }
 
         return $this->render('cita/new.html.twig', [
-            'citum' => $citum,
+            'cita' => $cita,
             'form' => $form->createView(),
         ]);
     }
