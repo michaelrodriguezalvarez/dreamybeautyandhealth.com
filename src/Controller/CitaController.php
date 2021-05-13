@@ -14,6 +14,18 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class CitaController extends AbstractController
 {
+    private $estados;
+
+    public function __construct()
+    {
+        $this->estados = array(
+            'Reservada' => 'Reservada',
+            'Reprogramada' => 'Reprogramada',
+            'Ejecutada' => 'Ejecutada',
+            'Cancelada' => 'Cancelada'
+        );
+    }
+
     /**
      * @Route("/", name="cita_index", methods={"GET"})
      */
@@ -34,7 +46,7 @@ class CitaController extends AbstractController
     public function new(Request $request): Response
     {
         $citum = new Cita();
-        $form = $this->createForm(CitaType::class, $citum);
+        $form = $this->createForm(CitaType::class, $citum, array('estados' => $this->estados));
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -88,7 +100,8 @@ class CitaController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete'.$citum->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($citum);
+            $citum->setEstado($this->estados['Cancelada']);
+            //$entityManager->remove($citum); // No se borran las citas
             $entityManager->flush();
         }
 
