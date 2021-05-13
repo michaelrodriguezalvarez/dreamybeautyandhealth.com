@@ -1,0 +1,5 @@
+<form method="post" action="{{ path('cita_delete', {'id': cita.id}) }}" onsubmit="return confirm('¿Desea eliminar esta cita?');">
+    <input type="hidden" name="_method" value="DELETE">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ cita.id) }}">
+    <button id="btn_delete" class="btn btn-danger m-1">Eliminar</button>
+</form>
