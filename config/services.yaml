@@ -57,8 +57,9 @@ services:
 
     App\Twig\UserExtension:
         tags: ['twig.extension']
-        #arguments:
-        #    $role: 'role'
+
+    App\Twig\CitaExtension:
+        tags: ['twig.extension']
 
     App\Form\BeneficioType:
         arguments:

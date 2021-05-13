@@ -3,11 +3,16 @@
 namespace App\Controller;
 
 use App\Entity\Cita;
+use App\Entity\Paciente;
 use App\Form\CitaType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
+use Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationChecker;
 
 /**
  * @Route("/cita")
@@ -15,14 +20,20 @@ use Symfony\Component\Routing\Annotation\Route;
 class CitaController extends AbstractController
 {
     private $estados;
+    private $authorizationChecker;
 
-    public function __construct()
+    public function __construct(TokenStorageInterface $tokenStorage, AuthenticationManagerInterface $autheticationManager, AccessDecisionManagerInterface $accessDecisionManager)
     {
         $this->estados = array(
             'Reservada' => 'Reservada',
             'Reprogramada' => 'Reprogramada',
             'Ejecutada' => 'Ejecutada',
             'Cancelada' => 'Cancelada'
+        );
+        $this->authorizationChecker = new AuthorizationChecker(
+            $tokenStorage,
+            $autheticationManager,
+            $accessDecisionManager
         );
     }
 
@@ -31,9 +42,23 @@ class CitaController extends AbstractController
      */
     public function index(): Response
     {
-        $citas = $this->getDoctrine()
-            ->getRepository(Cita::class)
-            ->findAll();
+        $citas = array();
+        if($this->authorizationChecker->isGranted('ROLE_PATIENT')){
+            /** @var User $user_logged */
+            $user_logged = $this->getUser();
+            /** @var Paciente $paciente */
+            $paciente = $this->getDoctrine()
+                ->getRepository(Paciente::class)
+                ->findOneBy(array('usuario'=>$user_logged));
+            $citas = $this->getDoctrine()
+                ->getRepository(Cita::class)
+                ->findBy(array('paciente' => $paciente));
+        }elseif($this->authorizationChecker->isGranted('ROLE_ADMIN') || $this->authorizationChecker->isGranted('ROLE_SPECIALIST')){
+            $citas = $this->getDoctrine()
+                ->getRepository(Cita::class)
+                ->findAll();
+        }
+
 
         return $this->render('cita/index.html.twig', [
             'citas' => $citas,
