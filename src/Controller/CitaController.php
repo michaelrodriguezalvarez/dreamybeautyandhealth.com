@@ -54,6 +54,7 @@ class CitaController extends AbstractController
             $entityManager->persist($cita);
             $entityManager->flush();
 
+            $this->addFlash('notification', 'Cita creada correctamente.');
             return $this->redirectToRoute('cita_index');
         }
 
@@ -84,6 +85,7 @@ class CitaController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
+            $this->addFlash('notification', 'Cita editada correctamente.');
             return $this->redirectToRoute('cita_index');
         }
 
@@ -105,6 +107,7 @@ class CitaController extends AbstractController
             $entityManager->flush();
         }
 
+        $this->addFlash('notification', 'Cita cancelada correctamente.');
         return $this->redirectToRoute('cita_index');
     }
 }
