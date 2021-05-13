@@ -47,6 +47,8 @@
                 <th>Fecha</th>
                 <th>Paciente</th>
                 <th>Estado</th>
+                <th>Tipo</th>
+                <th>Detalle</th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -56,6 +58,32 @@
                 <td>{{ cita.fecha ? cita.fecha|date('d-m-Y H:i:s') : '' }}</td>
                 <td>{{ cita.paciente.nombre }} {{ cita.paciente.apellidos }}</td>
                 <td>{{ cita.estado }}</td>
+                <td>
+                    {% if cita.paquete %}
+                        Paquete
+                    {% else %}
+                        {% if cita.servicio %}
+                            Servicio
+                        {% else %}
+                            {% if cita.especialidad %}
+                                Especialidad
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
+                </td>
+                <td>
+                    {% if cita.paquete %}
+                        {{ cita.paquete.nombre }}
+                    {% else %}
+                        {% if cita.servicio %}
+                            {{ cita.servicio.nombre }}
+                        {% else %}
+                            {% if cita.especialidad %}
+                                {{ cita.especialidad.nombre }}
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
+                </td>
                 <td>
                     <div class="row ml-2">
                         <a class="btn btn-sm btn-primary m-1" href="{{ path('cita_show', {'id': cita.id}) }}">Mostrar</a>
@@ -76,6 +104,8 @@
                         <th>Fecha</th>
                         <th>Paciente</th>
                         <th>Estado</th>
+                        <th>Tipo</th>
+                        <th>Detalle</th>
                         <th>Acciones</th>
                     </tr>
                     </tfoot>
