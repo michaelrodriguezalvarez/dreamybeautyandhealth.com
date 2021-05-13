@@ -59,30 +59,10 @@
                 <td>{{ cita.paciente.nombre }} {{ cita.paciente.apellidos }}</td>
                 <td>{{ cita.estado }}</td>
                 <td>
-                    {% if cita.paquete %}
-                        Paquete
-                    {% else %}
-                        {% if cita.servicio %}
-                            Servicio
-                        {% else %}
-                            {% if cita.especialidad %}
-                                Especialidad
-                            {% endif %}
-                        {% endif %}
-                    {% endif %}
+                    {{ (cita.paquete) ? 'Paquete' : (cita.servicio) ? 'Servicio' : (cita.especialidad) ? 'Especialidad' : ''}}
                 </td>
                 <td>
-                    {% if cita.paquete %}
-                        {{ cita.paquete.nombre }}
-                    {% else %}
-                        {% if cita.servicio %}
-                            {{ cita.servicio.nombre }}
-                        {% else %}
-                            {% if cita.especialidad %}
-                                {{ cita.especialidad.nombre }}
-                            {% endif %}
-                        {% endif %}
-                    {% endif %}
+                    {{ (cita.paquete) ? cita.paquete.nombre : (cita.servicio) ? cita.servicio.nombre : (cita.especialidad) ? cita.especialidad.nombre : ''}}
                 </td>
                 <td>
                     <div class="row ml-2">
