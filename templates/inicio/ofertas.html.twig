@@ -1,0 +1,167 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inicio{% endblock %}
+
+{% block page_title %}Inicio{% endblock %}
+
+{% block breadcrums %}
+    <li><a href="{{ path('inicio') }}">Inicio</a></li>
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+                <div class="col-md-12 grid-margin">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-lg-3 col-md-6">
+                                    <div class="d-flex">
+                                        <div class="wrapper">
+                                            <h3 class="mb-0 font-weight-semibold">{{ cantUsuarios }}</h3>
+                                            <h5 class="mb-0 font-weight-medium text-primary">Usuarios</h5>
+                                        </div>
+                                        <div class="wrapper my-auto ml-auto ml-lg-4">
+                                            <span class="icon fa fa-user-circle-o icon-lg"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-6 mt-md-0 mt-4">
+                                    <div class="d-flex">
+                                        <div class="wrapper">
+                                            <h3 class="mb-0 font-weight-semibold">{{ cantEspecialistas }}</h3>
+                                            <h5 class="mb-0 font-weight-medium text-primary">Especialistas</h5>
+                                        </div>
+                                        <div class="wrapper my-auto ml-auto ml-lg-4">
+                                            <span class="icon fa fa-hospital-o icon-lg"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-6 mt-md-0 mt-4">
+                                    <div class="d-flex">
+                                        <div class="wrapper">
+                                            <h3 class="mb-0 font-weight-semibold">{{ cantCitas }}</h3>
+                                            <h5 class="mb-0 font-weight-medium text-primary">Citas</h5>
+                                        </div>
+                                        <div class="wrapper my-auto ml-auto ml-lg-4">
+                                            <span class="icon fa fa-check-circle icon-lg"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3 col-md-6 mt-md-0 mt-4">
+                                    <div class="d-flex">
+                                        <div class="wrapper">
+                                            <h3 class="mb-0 font-weight-semibold">{{ cantServicios }}</h3>
+                                            <h5 class="mb-0 font-weight-medium text-primary">Servicios</h5>
+                                        </div>
+                                        <div class="wrapper my-auto ml-auto ml-lg-4">
+                                            <span class="icon fa fa-server icon-lg"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+    <div class="row">
+        <div class="col-md-12 grid-margin">
+            <div class="accordion" id="accordionExample">
+                <div class="card">
+                    <div class="card-header" id="headingOne">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                Brindamos para usted y su familia los siguientes Servicios.
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                        <div class="card-body">
+                            {% for servicio in servicios  %}
+                                <div class="card mb-3">
+                                    <div class="row no-gutters">
+                                        <div class="col-md-4">
+                                            {% if servicio.imagen %}
+                                                <img class="rounded float-left img-fluid m-2" src="{{ asset('uploads/images/' ~ servicio.imagen.imagen) }}" alt="{{ servicio.imagen.nombre }}" />
+                                            {% endif %}
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="card-body">
+                                                <p class="card-title"><b>{{ servicio.nombre }} ({{ servicio.especialidad.nombre }})</b></p>
+                                                <p class="card-text">{{ servicio.descripcion }}</p>
+                                                <a href="#" class="btn btn-primary btn-sm">Solicitar cita</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header" id="headingTwo">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                Disponemos de los siguientes Paquetes para el cuidado de su salud y su belleza.
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                        <div class="card-body">
+                            {% for paquete in paquetes  %}
+                                <div class="card mb-3">
+                                    <div class="row no-gutters">
+                                        <div class="col-md-4">
+                                            {% if paquete.imagen %}
+                                                <img class="rounded float-left img-fluid m-2" src="{{ asset('uploads/images/' ~ paquete.imagen.imagen) }}" alt="{{ paquete.imagen.nombre }}" />
+                                            {% endif %}
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="card-body">
+                                                <p class="card-title"><b>{{ paquete.nombre }}</b></p>
+                                                <p class="card-text">{{ paquete.descripcion }}</p>
+                                                <a href="#" class="btn btn-primary btn-sm">Solicitar cita</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header" id="headingThree">
+                        <h2 class="mb-0">
+                            <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                Ofertamos las siguientes Especialidades con profesionales muy preparados.
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                        <div class="card-body">
+                            {% for especialidad in especialidades  %}
+                            <div class="card mb-3">
+                                <div class="row no-gutters">
+                                    <div class="col-md-4">
+                                        {% if especialidad.imagen %}
+                                            <img class="rounded float-left img-fluid m-2" src="{{ asset('uploads/images/' ~ especialidad.imagen.imagen) }}" alt="{{ especialidad.imagen.nombre }}" />
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body">
+                                            <p class="card-title"><b>{{ especialidad.nombre }}</b></p>
+                                            <p class="card-text">{{ especialidad.descripcion }}</p>
+                                            <a href="#" class="btn btn-primary btn-sm">Solicitar cita</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
