@@ -145,7 +145,6 @@ class CitaController extends AbstractController
      */
     public function solicitar(Request $request, $tipo, $id): Response
     {
-
         $especialidad = null;
         $paquete = null;
         $servicio = null;
@@ -170,25 +169,6 @@ class CitaController extends AbstractController
                 "El recurso solicitado no fue encontrado. Contacte con el administrador del sistema."
             );
         }
-
-        /*$cita = new Cita();
-        $form = $this->createForm(CitaType::class, $cita, array('estados' => $this->estados));
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            $entityManager->persist($cita);
-            $entityManager->flush();
-
-            $this->addFlash('notification', 'Cita creada correctamente.');
-            return $this->redirectToRoute('cita_index');
-        }
-
-        return $this->render('cita/solicitar.html.twig', [
-            'cita' => $cita,
-            'form' => $form->createView(),
-        ]);*/
-
 
         if ($request->getMethod() == 'POST'){
             if($this->isCsrfTokenValid('solicitar'.$tipo.$id, $request->request->get('_token'))){

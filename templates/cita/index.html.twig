@@ -67,7 +67,11 @@
                 <td>
                     <div class="row ml-2">
                         <a class="btn btn-sm btn-primary m-1" href="{{ path('cita_show', {'id': cita.id}) }}">Mostrar</a>
+                        {% if user_logged_role == 'admin' %}
                         <a class="btn btn-sm btn-primary m-1" href="{{ path('cita_edit', {'id': cita.id}) }}">Editar</a>
+                        {% else %}
+                        <a class="btn btn-sm btn-primary m-1" href="#" onclick="alert('Aqui solo modificará la fecha')">Reprogramar</a>
+                        {% endif %}
                         {{ include('cita/_delete_form.html.twig') }}
                     </div>
                 </td>

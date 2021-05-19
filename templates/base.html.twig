@@ -125,6 +125,10 @@
                     <div class="collapse" id="ui-basic">
                         <ul class="nav flex-column sub-menu">
                             <li class="nav-item">
+                                <a class="nav-link" href="{{ path('user_show', {'id': user_logged.usuario.id, 'role':user_logged_role}) }}">Perfil</a>
+                            </li>
+                            {% if user_logged_role == 'admin' %}
+                            <li class="nav-item">
                                 <a class="nav-link" href="{{ path('user_index', {'role':'admin'}) }}">Administradores</a>
                             </li>
                             <li class="nav-item">
@@ -133,21 +137,25 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ path('user_index', {'role':'patient'}) }}">Pacientes</a>
                             </li>
+                            {% endif %}
                         </ul>
                     </div>
                 </li>
+                {% if user_logged_role == 'admin' %}
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('paquete_index') }}">
                         <i class="menu-icon typcn typcn-user-outline"></i>
                         <span class="menu-title">Paquetes</span>
                     </a>
                 </li>
+                {% endif %}
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('cita_index') }}">
                         <i class="menu-icon typcn typcn-user-outline"></i>
                         <span class="menu-title">Citas</span>
                     </a>
                 </li>
+                {% if user_logged_role == 'admin' %}
                 <li class="nav-item">
                     <a class="nav-link" data-toggle="collapse" href="#nom" aria-expanded="false" aria-controls="nom">
                         <i class="menu-icon typcn typcn-document-add"></i>
@@ -185,6 +193,7 @@
                         </ul>
                     </div>
                 </li>
+                {% endif %}
             </ul>
         </nav>
         <!-- partial -->
