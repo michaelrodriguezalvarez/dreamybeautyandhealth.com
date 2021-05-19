@@ -62,7 +62,7 @@
                 {% endif %}
                 <td>{{ servicio.nombre }}</td>
                 <td>{{ servicio.especialidad.nombre }}</td>
-                <td>{{ servicio.descripcion }}</td>
+                <td class="text-wrap">{{ servicio.descripcion }}</td>
                 <td>
                     <div class="row ml-2">
                         <a class="btn btn-sm btn-primary m-1" href="{{ path('servicio_show', {'id': servicio.id}) }}">Mostrar</a>

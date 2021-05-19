@@ -59,7 +59,7 @@
                     <td><img src="{{ asset('uploads/images/' ~ paquete.imagen.imagen) }}" alt="{{ paquete.imagen.nombre }}" /></td>
                 {% endif %}
                 <td>{{ paquete.nombre }}</td>
-                <td>{{ paquete.descripcion }}</td>
+                <td class="text-wrap">{{ paquete.descripcion }}</td>
                 <td>
                     <div class="row ml-2">
                         <a class="btn btn-sm btn-primary m-1" href="{{ path('paquete_show', {'id': paquete.id}) }}">Mostrar</a>

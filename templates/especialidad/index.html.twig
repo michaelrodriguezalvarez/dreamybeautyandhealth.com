@@ -60,7 +60,7 @@
                     <td><img src="{{ asset('uploads/images/' ~ especialidad.imagen.imagen) }}" alt="{{ especialidad.imagen.nombre }}" /></td>
                 {% endif %}
                 <td>{{ especialidad.nombre }}</td>
-                <td>{{ especialidad.descripcion }}</td>
+                <td class="text-wrap">{{ especialidad.descripcion }}</td>
                 <td>
                     <div class="row ml-2">
                         <a class="btn btn-sm btn-primary m-1" href="{{ path('especialidad_show', {'id': especialidad.id}) }}">Mostrar</a>
