@@ -29,6 +29,7 @@ class CitaController extends AbstractController
     public function __construct(TokenStorageInterface $tokenStorage, AuthenticationManagerInterface $autheticationManager, AccessDecisionManagerInterface $accessDecisionManager)
     {
         $this->estados = array(
+            'Solicitada' => 'Solicitada',
             'Reservada' => 'Reservada',
             'Reprogramada' => 'Reprogramada',
             'Ejecutada' => 'Ejecutada',
@@ -77,19 +78,56 @@ class CitaController extends AbstractController
         $cita = new Cita();
         $form = $this->createForm(CitaType::class, $cita, array('estados' => $this->estados));
         $form->handleRequest($request);
+        $tipo = 'Especialidad';
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($cita);
-            $entityManager->flush();
+            $tipo = $request->request->get('cita')['tipo'];
+            $tieneError = false;
 
-            $this->addFlash('notification', 'Cita creada correctamente.');
-            return $this->redirectToRoute('cita_index');
+            switch ($tipo) {
+                case 'Especialidad':
+                    if($cita->getEspecialidad() == null){
+                        $this->addFlash(
+                            'notification',
+                            'Debe seleccionar una Especialidad para la Cita.'
+                        );
+                        $tieneError = true;
+                    }
+                    break;
+                case 'Paquete':
+                    if($cita->getPaquete() == null){
+                        $this->addFlash(
+                            'notification',
+                            'Debe seleccionar un Paquete para la Cita.'
+                        );
+                        $tieneError = true;
+                    }
+                    break;
+                case 'Servicio':
+                    if($cita->getServicio() == null){
+                        $this->addFlash(
+                            'notification',
+                            'Debe seleccionar un Servicio para la Cita.'
+                        );
+                        $tieneError = true;
+                    }
+                    break;
+            }
+
+            if($tieneError == false){
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($cita);
+                $entityManager->flush();
+
+                $this->addFlash('notification', 'Cita creada correctamente.');
+                return $this->redirectToRoute('cita_index');
+            }
         }
 
         return $this->render('cita/new.html.twig', [
             'cita' => $cita,
             'form' => $form->createView(),
+            'tipo' => $tipo,
         ]);
     }
 
@@ -179,7 +217,7 @@ class CitaController extends AbstractController
                             ->findOneBy(array('usuario'=>$user_logged->getId()));
                     $cita = new Cita();
                     $cita->setFecha(new \DateTime($request->request->get('fecha')));
-                    $cita->setEstado($this->estados['Reservada']);
+                    $cita->setEstado($this->estados['Solicitada']);
                     $cita->setEspecialidad($especialidad);
                     $cita->setPaciente($paciente);
                     $cita->setPaquete($paquete);

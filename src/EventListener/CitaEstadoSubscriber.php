@@ -68,7 +68,7 @@ class CitaEstadoSubscriber implements EventSubscriberInterface
         $entidad_original = $event->getForm()->getData();
 
         if ($this->authorizationChecker->isGranted('ROLE_PATIENT')){
-            $entidad['estado'] = ($entidad_original && null !== $entidad_original->getId()) ? $entidad_original['estado'] : 'Reservada' ;
+            $entidad['estado'] = ($entidad_original && null !== $entidad_original->getId()) ? $entidad_original['estado'] : 'Solicitada' ;
             $event->setData($entidad);
         }
     }

@@ -94,7 +94,10 @@
                             <p class="font-weight-light text-muted mb-0">{{ user_logged.usuario.email }}</p>
                         </div>
                         <a class="dropdown-item" href="{{ path('user_show', {'id': user_logged.usuario.id, 'role':user_logged_role}) }}"><span class="fa fa-user-circle-o blue-fa-icon mr-2"> </span> Perfil <i class="dropdown-item-icon ti-dashboard"></i></a>
-                        <a class="dropdown-item" href="{{ path('cita_index') }}"><span class="fa fa-calendar blue-fa-icon mr-2"> </span> Citas <span class="badge badge-pill badge-primary">{{ getCitasUsuario(app.user) }}</span><i class="dropdown-item-icon ti-dashboard"></i></a>
+                        {% if  user_logged_role == 'specialist' or user_logged_role == 'admin'%}
+                            <a class="dropdown-item" href="{{ path('cita_index') }}"><span class="fa fa-calendar blue-fa-icon mr-2"> </span> Citas Solicitadas<span class="badge badge-pill badge-primary">{{ getCitasSolicitadasPacientes(app.user) }}</span><i class="dropdown-item-icon ti-dashboard"></i></a>
+                        {% endif %}
+                        <a class="dropdown-item" href="{{ path('cita_index') }}"><span class="fa fa-calendar blue-fa-icon mr-2"> </span> Citas Aprobadas <span class="badge badge-pill badge-primary">{{ getCitasUsuario(app.user) }}</span><i class="dropdown-item-icon ti-dashboard"></i></a>
                         <a class="dropdown-item" href="{{ path('app_logout') }}"><span class="fa fa-sign-out blue-fa-icon mr-2"> </span> Desconectarse<i class="dropdown-item-icon ti-power-off"></i></a>
                     </div>
                 </li>
