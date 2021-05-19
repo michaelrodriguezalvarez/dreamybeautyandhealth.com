@@ -90,7 +90,7 @@
                                             <div class="card-body">
                                                 <p class="card-title"><b>{{ servicio.nombre }} ({{ servicio.especialidad.nombre }})</b></p>
                                                 <p class="card-text">{{ servicio.descripcion }}</p>
-                                                <a href="#" class="btn btn-primary btn-sm">Solicitar cita</a>
+                                                <a href="{{ path('cita_solicitar', {tipo: 'servicio', id: servicio.id}) }}" class="btn btn-primary btn-sm">Solicitar cita</a>
                                             </div>
                                         </div>
                                     </div>
@@ -121,7 +121,7 @@
                                             <div class="card-body">
                                                 <p class="card-title"><b>{{ paquete.nombre }}</b></p>
                                                 <p class="card-text">{{ paquete.descripcion }}</p>
-                                                <a href="#" class="btn btn-primary btn-sm">Solicitar cita</a>
+                                                <a href="{{ path('cita_solicitar', {tipo: 'paquete', id: paquete.id}) }}" class="btn btn-primary btn-sm">Solicitar cita</a>
                                             </div>
                                         </div>
                                     </div>
@@ -152,7 +152,7 @@
                                         <div class="card-body">
                                             <p class="card-title"><b>{{ especialidad.nombre }}</b></p>
                                             <p class="card-text">{{ especialidad.descripcion }}</p>
-                                            <a href="#" class="btn btn-primary btn-sm">Solicitar cita</a>
+                                            <a href="{{ path('cita_solicitar', {tipo: 'especialidad', id: especialidad.id}) }}" class="btn btn-primary btn-sm">Solicitar cita</a>
                                         </div>
                                     </div>
                                 </div>

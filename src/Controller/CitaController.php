@@ -3,11 +3,15 @@
 namespace App\Controller;
 
 use App\Entity\Cita;
+use App\Entity\Especialidad;
 use App\Entity\Paciente;
+use App\Entity\Paquete;
+use App\Entity\Servicio;
 use App\Form\CitaType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Authentication\AuthenticationManagerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -134,5 +138,91 @@ class CitaController extends AbstractController
 
         $this->addFlash('notification', 'Cita cancelada correctamente.');
         return $this->redirectToRoute('cita_index');
+    }
+
+    /**
+     * @Route("/solicitar/{tipo}/{id}", name="cita_solicitar", methods={"GET","POST"})
+     */
+    public function solicitar(Request $request, $tipo, $id): Response
+    {
+
+        $especialidad = null;
+        $paquete = null;
+        $servicio = null;
+
+        switch ($tipo){
+            case 'especialidad':
+                $especialidad = $this->getDoctrine()
+                    ->getRepository(Especialidad::class)->findOneBy(array('id'=>$id));
+                break;
+            case 'paquete':
+                $paquete = $this->getDoctrine()
+                    ->getRepository(Paquete::class)->findOneBy(array('id'=>$id));
+                break;
+            case 'servicio':
+                $servicio = $this->getDoctrine()
+                    ->getRepository(Servicio::class)->findOneBy(array('id'=>$id));
+                break;
+        }
+
+        if ($especialidad == null && $paquete == null && $servicio == null) {
+            throw new NotFoundHttpException(
+                "El recurso solicitado no fue encontrado. Contacte con el administrador del sistema."
+            );
+        }
+
+        /*$cita = new Cita();
+        $form = $this->createForm(CitaType::class, $cita, array('estados' => $this->estados));
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $entityManager->persist($cita);
+            $entityManager->flush();
+
+            $this->addFlash('notification', 'Cita creada correctamente.');
+            return $this->redirectToRoute('cita_index');
+        }
+
+        return $this->render('cita/solicitar.html.twig', [
+            'cita' => $cita,
+            'form' => $form->createView(),
+        ]);*/
+
+
+        if ($request->getMethod() == 'POST'){
+            if($this->isCsrfTokenValid('solicitar'.$tipo.$id, $request->request->get('_token'))){
+                if ($request->request->get('fecha')){
+                    $user_logged = $this->getUser();
+                    $paciente = $this->getDoctrine()
+                        ->getRepository(Paciente::class)
+                            ->findOneBy(array('usuario'=>$user_logged->getId()));
+                    $cita = new Cita();
+                    $cita->setFecha(new \DateTime($request->request->get('fecha')));
+                    $cita->setEstado($this->estados['Reservada']);
+                    $cita->setEspecialidad($especialidad);
+                    $cita->setPaciente($paciente);
+                    $cita->setPaquete($paquete);
+                    $cita->setServicio($servicio);
+
+                    $entityManager = $this->getDoctrine()->getManager();
+                    $entityManager->persist($cita);
+                    $entityManager->flush();
+
+                    $this->addFlash('notification', 'Cita creada correctamente.');
+                    return $this->redirectToRoute('cita_index');
+                }else{
+                    $this->addFlash('notification', 'Usted debe especificar una fecha para la cita.');
+                }
+            }
+        }
+
+        return $this->render('cita/solicitar.html.twig', [
+            'tipo' => $tipo,
+            'id' => $id,
+            'especialidad' => $especialidad,
+            'paquete' => $paquete,
+            'servicio' => $servicio,
+        ]);
     }
 }

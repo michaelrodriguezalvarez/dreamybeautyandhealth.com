@@ -1,0 +1,158 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Solicitar Cita{% endblock %}
+
+{% block stylesheets %}
+    <style type="text/css">
+        input,
+        [type="radio"]
+        {
+            margin-left: 10px;
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+    </style>
+{% endblock %}
+
+{% block page_title %}Solicitar Cita{% endblock %}
+
+{% block breadcrums %}
+    <li><a href="#">Inicio</a></li>
+    <li><a href="#">Citas</a></li>
+    <li><a href="#">Solicitar Cita</a></li>
+{% endblock %}
+
+{% block body %}
+
+    <div class="row">
+        <div class="col-md-12 grid-margin">
+            <div class="card">
+                <div class="card-body">
+                    <div>
+                        {% for message in app.flashes('notification') %}
+                            <div class="alert alert-primary alert-dismissible fade show">
+                                {{ message }}
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                    <div>
+                        <form method="post" action="{{ path('cita_solicitar', {'tipo':tipo, 'id': id}) }}">
+                            <div>
+                                <label for="fecha">Fecha</label>
+                                <input class="form-control" type="datetime-local" name="fecha">
+                            </div>
+                            <div>
+                                <input type="hidden" name="_token" value="{{ csrf_token('solicitar' ~ tipo ~ id) }}">
+                            </div>
+
+                            <div class="row ml-2">
+                                {% set recurso_gramatical = (tipo == 'especialidad') ? 'la' : 'el' %}
+                                <label class="text-muted">La solicitud de la cita será para {{ recurso_gramatical }} siguiente {{ tipo | capitalize }}:</label>
+                            </div>
+
+                            <div class="card m-2">
+                                {# Para los servicios #}
+                                {% if servicio %}
+                                <div class="row no-gutters">
+                                        <div class="col-md-4">
+                                            {% if servicio.imagen %}
+                                                <img class="rounded float-left img-fluid m-2" src="{{ asset('uploads/images/' ~ servicio.imagen.imagen) }}" alt="{{ servicio.imagen.nombre }}" />
+                                            {% endif %}
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="card-body">
+                                                <p class="card-title"><b>{{ servicio.nombre }} ({{ servicio.especialidad.nombre }})</b></p>
+                                                <p class="card-text">{{ servicio.descripcion }}</p>
+                                            </div>
+                                        </div>
+                                </div>
+                                {% endif %}
+                                {# Para los paquetes #}
+                                {% if paquete %}
+                                    <div class="row no-gutters">
+                                        <div class="col-md-4">
+                                            {% if paquete.imagen %}
+                                                <img class="rounded float-left img-fluid m-2" src="{{ asset('uploads/images/' ~ paquete.imagen.imagen) }}" alt="{{ paquete.imagen.nombre }}" />
+                                            {% endif %}
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="card-body">
+                                                <p class="card-title"><b>{{ paquete.nombre }}</b></p>
+                                                <p class="card-text">{{ paquete.descripcion }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                                {# Para las especialidades #}
+                                {% if especialidad %}
+                                    <div class="row no-gutters">
+                                        <div class="col-md-4">
+                                            {% if especialidad.imagen %}
+                                                <img class="rounded float-left img-fluid m-2" src="{{ asset('uploads/images/' ~ especialidad.imagen.imagen) }}" alt="{{ especialidad.imagen.nombre }}" />
+                                            {% endif %}
+                                        </div>
+                                        <div class="col-md-8">
+                                            <div class="card-body">
+                                                <p class="card-title"><b>{{ especialidad.nombre }}</b></p>
+                                                <p class="card-text">{{ especialidad.descripcion }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            <button class="btn btn-primary mt-2 ml-2">{{ button_label|default('Solicitar')|trans }} Cita</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+<script src="{{ asset('js/plugins/dataTables/jquery-3.5.1.js') }}" type="text/javascript"></script>
+
+<script type="text/javascript">
+$(document).ready(function (){
+    var tipo = 'Especialidad';
+
+    function SeleccionarEspecialidad() {
+
+        $('#cita_especialidad').val(null);
+        $('#cita_paquete').val(null);
+        $('#cita_servicio').val(null);
+
+        switch (tipo) {
+            case "Especialidad":
+                $('#cita_especialidad').parent().show();
+                $('#cita_paquete').parent().hide();
+                $('#cita_servicio').parent().hide();
+                break;
+            case "Paquete":
+                $('#cita_especialidad').parent().hide();
+                $('#cita_paquete').parent().show();
+                $('#cita_servicio').parent().hide();
+                break;
+            case "Servicio":
+                $('#cita_especialidad').parent().hide();
+                $('#cita_paquete').parent().hide();
+                $('#cita_servicio').parent().show();
+                break;
+        }
+    }
+
+    SeleccionarEspecialidad();
+
+    $('input[name="cita[tipo]"]').change(function (){
+        tipo = $(this).val();
+        SeleccionarEspecialidad();
+
+    });
+});
+</script>
+{% endblock %}
