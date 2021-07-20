@@ -86,10 +86,19 @@
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item dropdown d-none d-xl-inline-block user-dropdown">
                     <a class="nav-link dropdown-toggle" id="UserDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
-                        <img class="img-xs rounded-circle" src="{{ asset('uploads/images/' ~ user_logged.foto.imagen) }}" alt="{{ user_logged.foto.nombre }}"> </a>
+                    {% if user_logged.foto != null %}
+                        <img class="img-xs rounded-circle" src="{{ asset('uploads/images/' ~ user_logged.foto.imagen) }}" alt="{{ user_logged.foto.nombre }}" />
+                    {% else %}
+                        <img class="img-xs rounded-circle" src="{{ asset('images/dreamybeautyandhealth/user-default.png') }}" alt="Avatar" />
+                    {% endif %}
+                    </a>
                     <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
                         <div class="dropdown-header text-center">
-                            <img class="img-md rounded-circle" src="{{ asset('uploads/images/' ~ user_logged.foto.imagen) }}" alt="Profile image">
+                            {% if user_logged.foto != null %}
+                            <img class="img-md rounded-circle" src="{{ asset('uploads/images/' ~ user_logged.foto.imagen) }}" alt="Profile image" />
+                            {% else %}
+                                <img class="img-xs rounded-circle" src="{{ asset('images/dreamybeautyandhealth/user-default.png') }}" alt="Avatar" />
+                            {% endif %}                            
                             <p class="mb-1 mt-3 font-weight-semibold">{{ user_logged.nombre }} {{ user_logged.apellidos }}</p>
                             <p class="font-weight-light text-muted mb-0">{{ user_logged.usuario.email }}</p>
                         </div>

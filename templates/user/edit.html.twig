@@ -40,7 +40,7 @@
                     <label>Foto actual</label>
                     <br>
                     {% if user.foto == null %}
-                        <span>Sin foto</span>
+                        <img class="img-xs rounded-circle" src="{{ asset('images/dreamybeautyandhealth/user-default.png') }}" alt="Avatar" />
                     {% else %}
                         <img class="img-md rounded-circle" src="{{ asset('uploads/images/' ~ user.foto.imagen) }}" alt="{{ user.foto.nombre }}" />
                     {% endif %}

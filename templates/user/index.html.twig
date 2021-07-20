@@ -71,7 +71,7 @@
                         {% for user in users %}
                             <tr>
                                 {% if user.foto == null %}
-                                    <td><span>Sin foto</span></td>
+                                    <td><img class="img-xs rounded-circle" src="{{ asset('images/dreamybeautyandhealth/user-default.png') }}" alt="Avatar" /></td>
                                 {% else %}
                                     <td><img src="{{ asset('uploads/images/' ~ user.foto.imagen) }}" alt="{{ user.foto.nombre }}" /></td>
                                 {% endif %}
